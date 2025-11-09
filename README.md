@@ -1,16 +1,24 @@
 # practice1
 
-A new Flutter project.
+登山パッケージの一覧画面を題材にした Flutter UI デモです。`HomeView` を中心に、旅行プランのカードをデータドリブンに描画するよう再設計しました。
 
-## Getting Started
+## リファクタリング概要
+- クラス名を `HomeView`／`CardWidget` に統一し、各ウィジェットを `const` コンストラクタ化 → Flutter の命名規約に沿いつつ、再構築判定が正しく働くため不要なリビルドを抑制できます。
+- パッケージカードを `_packages` 配列をもとにループで描画する構造へ変更 → 新しいプランを追加・削除する際に配列へ行を足すだけで UI が同期し、レイアウトコードの重複を排除できます。
+- アクションバー (`_ActionBar`) やソートバー (`_SortBar`) を独立ウィジェットとして切り出し → UI セクションごとの責務が分離され、スタイル変更やテストが局所化されて扱いやすくなります。
+- `MaterialApp` を `MyApp` に一元化し、`HomeView` を単一ツリーで提供 → テーマ設定やルーティングが一貫して適用され、ネストした `MaterialApp` によるナビゲーション不具合を防止できます。
 
-This project is a starting point for a Flutter application.
+## ディレクトリ構成
+- `lib/main.dart` : エントリーポイント。`HomeView` を単一の `MaterialApp` から起動
+- `lib/view/home_view.dart` : 画面本体。パッケージデータと UI セクションのレイアウトを管理
+- `lib/widget/card_widget.dart` : 汎用カードウィジェット。タイトル／サブタイトル／バナー色を受け取り表示
 
-A few resources to get you started if this is your first Flutter project:
+## 動作確認
+```bash
+flutter pub get     # 依存関係を取得し、プロジェクト構成を同期できます
+flutter analyze     # 静的解析を通してコーディング規約逸脱や潜在的なバグを検出できます
+flutter run         # 実機またはエミュレータで画面の見た目と挙動を確認できます
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 参考リンク
+- [Flutter 公式ドキュメント](https://docs.flutter.dev/)

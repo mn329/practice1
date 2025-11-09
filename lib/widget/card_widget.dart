@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 
-class card_widget extends StatelessWidget {
-  const card_widget({
+class CardWidget extends StatelessWidget {
+  const CardWidget({
+    required this.title,
+    required this.subtitle,
+    required this.bannerColor,
+    this.trailingIcon = Icons.calendar_today,
     super.key,
   });
 
+  final String title;
+  final String subtitle;
+  final Color bannerColor;
+  final IconData trailingIcon;
+
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -15,7 +26,7 @@ class card_widget extends StatelessWidget {
             Container(
               height: 250,
               decoration: BoxDecoration(
-                color: Colors.red,
+                color: bannerColor,
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
@@ -25,7 +36,7 @@ class card_widget extends StatelessWidget {
               child: Container(
                 height: 30,
                 width: 30,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.amber,
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(16),
@@ -33,7 +44,7 @@ class card_widget extends StatelessWidget {
                   ),
                 ),
                 child: Icon(
-                  Icons.calendar_today,
+                  trailingIcon,
                   color: Colors.white,
                   size: 16,
                 ),
@@ -41,26 +52,39 @@ class card_widget extends StatelessWidget {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: const Text(
-            "Trekking",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-          ),
+        const SizedBox(height: 8),
+        Text(
+          title,
+          style: textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ) ??
+              const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: Row(
-            children: const [
-              Icon(Icons.location_on, color: Colors.amber, size: 16),
-              Text(
-                'Tours + Hotel',
-                style:
-                    TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-              )
-            ],
-          ),
-        )
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            const Icon(
+              Icons.location_on,
+              color: Colors.amber,
+              size: 16,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              subtitle,
+              style: textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
+                  ) ??
+                  const TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+          ],
+        ),
       ],
     );
   }
